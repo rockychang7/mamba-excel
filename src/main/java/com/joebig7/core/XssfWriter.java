@@ -11,12 +11,12 @@ import java.io.FileOutputStream;
  */
 public class XssfWriter extends AbstractExcelWriter {
 
-    public XssfWriter(String path){
+    public XssfWriter(String path) {
         super(path);
     }
 
     @Override
-    protected void doWrite(FileOutputStream fis, Workbook workbook) {
+    public void doWrite(FileOutputStream fis, Workbook workbook) {
         XSSFWorkbook xssfWorkbook = (XSSFWorkbook) workbook;
 
     }

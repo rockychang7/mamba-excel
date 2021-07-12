@@ -15,7 +15,7 @@ public class HssfWriter extends AbstractExcelWriter {
     }
 
     @Override
-    protected void doWrite(FileOutputStream fis, Workbook workbook) {
+    public void doWrite(FileOutputStream fis, Workbook workbook) {
 
     }
 }

@@ -43,5 +43,5 @@ public abstract class AbstractExcelWriter {
         doWrite(fis, workbook);
     }
 
-    abstract protected void doWrite(FileOutputStream fis, Workbook workbook);
+    abstract public void doWrite(FileOutputStream fis, Workbook workbook);
 }
