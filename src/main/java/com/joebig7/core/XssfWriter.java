@@ -1,6 +1,8 @@
 package com.joebig7.core;
 
+import com.joebig7.enums.FileTypeEnum;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
@@ -11,13 +13,21 @@ import java.io.FileOutputStream;
  */
 public class XssfWriter extends AbstractExcelWriter {
 
+    private String sheetName;
+
     public XssfWriter(String path) {
         super(path);
+    }
+
+    public XssfWriter(String path, FileTypeEnum fileTypeEnum) {
+        super(path, fileTypeEnum);
     }
 
     @Override
     public void doWrite(FileOutputStream fis, Workbook workbook) {
         XSSFWorkbook xssfWorkbook = (XSSFWorkbook) workbook;
+        XSSFSheet sheet = xssfWorkbook.createSheet();
+
 
     }
 

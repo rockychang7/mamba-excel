@@ -1,7 +1,7 @@
 package com.joebig7.core;
 
 import com.joebig7.enums.FileTypeEnum;
-import com.joebig7.exception.MambaExcelException;
+import com.joebig7.exception.ExcelManipulationException;
 import com.joebig7.utils.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -21,12 +21,19 @@ public abstract class AbstractExcelWriter {
 
     private String path;
 
+    private FileTypeEnum fileTypeEnum = FileTypeEnum.XLSX;
+
     public AbstractExcelWriter(String path) {
         this.path = path;
     }
 
+    public AbstractExcelWriter(String path, FileTypeEnum fileTypeEnum) {
+        this.path = path;
+        this.fileTypeEnum = fileTypeEnum;
+    }
+
     public void write() {
-        write(path, XLSX);
+        write(path, fileTypeEnum);
     }
 
     public void write(String path, FileTypeEnum fileTypeEnum) {
@@ -37,7 +44,7 @@ public abstract class AbstractExcelWriter {
         } else if (fileTypeEnum == XLS) {
             workbook = new HSSFWorkbook();
         } else {
-            throw new MambaExcelException("file type is not correct");
+            throw new ExcelManipulationException("file type is not correct");
         }
 
         doWrite(fis, workbook);
