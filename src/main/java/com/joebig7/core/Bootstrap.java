@@ -23,7 +23,10 @@ public class Bootstrap {
 
     public static void main(String[] args) {
 
-        writeXls();
+//        writeXls();
+
+        GenericExcelWriter genericExcelWriter = new GenericExcelWriter("D://test.xlsx","test");
+        genericExcelWriter.write();
     }
 
     public static void writeXls() {

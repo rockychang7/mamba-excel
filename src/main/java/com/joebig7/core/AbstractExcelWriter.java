@@ -21,7 +21,7 @@ public abstract class AbstractExcelWriter {
 
     private String path;
 
-    private FileTypeEnum fileTypeEnum = FileTypeEnum.XLSX;
+    private FileTypeEnum fileTypeEnum;
 
     public AbstractExcelWriter(String path) {
         this.path = path;
@@ -50,5 +50,5 @@ public abstract class AbstractExcelWriter {
         doWrite(fis, workbook);
     }
 
-    abstract public void doWrite(FileOutputStream fis, Workbook workbook);
+    abstract protected void doWrite(FileOutputStream fis, Workbook workbook);
 }
