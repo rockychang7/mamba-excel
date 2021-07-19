@@ -25,8 +25,7 @@ public class Bootstrap {
 
 //        writeXls();
 
-        GenericExcelWriter genericExcelWriter = new GenericExcelWriter("D://test.xlsx","test");
-        genericExcelWriter.write();
+
     }
 
     public static void writeXls() {

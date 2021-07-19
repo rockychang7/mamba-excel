@@ -15,7 +15,7 @@ import static com.joebig7.enums.FileTypeEnum.XLSX;
 /**
  * @Author JoeBig7
  * @date 2021/7/12 17:37:40
- * @description 定义操作execel的模板
+ * @description 定义操作excel的模板
  */
 public abstract class AbstractExcelWriter {
 
@@ -23,9 +23,6 @@ public abstract class AbstractExcelWriter {
 
     private FileTypeEnum fileTypeEnum;
 
-    public AbstractExcelWriter(String path) {
-        this.path = path;
-    }
 
     public AbstractExcelWriter(String path, FileTypeEnum fileTypeEnum) {
         this.path = path;
