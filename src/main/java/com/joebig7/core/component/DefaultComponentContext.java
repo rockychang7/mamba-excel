@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * @Author JoeBig7
  * @date 2021/7/19 14:21:24
+ * @descripition excel data context
  */
 public class DefaultComponentContext {
 
@@ -17,13 +18,13 @@ public class DefaultComponentContext {
 
     private Workbook workbook;
     private List<HeaderData> headerDataList;
-    private List<Object> contentDataList;
+    private List<List<Object>> contentDataList;
 
-    public DefaultComponentContext(Workbook workbook, List<Object> contentDataList) {
+    public DefaultComponentContext(Workbook workbook, List<List<Object>> contentDataList) {
         this(workbook, null, contentDataList);
     }
 
-    public DefaultComponentContext(Workbook workbook, List<HeaderData> headerDataList, List<Object> contentDataList) {
+    public DefaultComponentContext(Workbook workbook, List<HeaderData> headerDataList, List<List<Object>> contentDataList) {
         this.workbook = workbook;
         this.headerDataList = headerDataList;
         this.contentDataList = contentDataList;
@@ -33,7 +34,6 @@ public class DefaultComponentContext {
         Sheet sheet = createSheet();
         List<Row> rowList = createRows(sheet, headerDataList, contentDataList);
         createCells(rowList, headerDataList, contentDataList);
-
         return workbook;
     }
 
@@ -43,12 +43,12 @@ public class DefaultComponentContext {
         return sheet;
     }
 
-    protected List<Row> createRows(Sheet sheet, List<HeaderData> headerDataList, List<Object> contentDataList) {
+    protected List<Row> createRows(Sheet sheet, List<HeaderData> headerDataList, List<List<Object>> contentDataList) {
         GenericRowComponent rowComponent = new GenericRowComponent(headerDataList, contentDataList);
         return rowComponent.create(sheet);
     }
 
-    private void createCells(List<Row> rowList, List<HeaderData> headerDataList, List<Object> contentDataList) {
+    private void createCells(List<Row> rowList, List<HeaderData> headerDataList, List<List<Object>> contentDataList) {
         GenericCellComponent cellComponent = new GenericCellComponent(headerDataList, contentDataList);
         cellComponent.create(rowList);
     }

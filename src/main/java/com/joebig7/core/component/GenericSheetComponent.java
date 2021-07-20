@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 /**
  * @Author JoeBig7
  * @date 2021/7/16 17:22:10
+ * @description common sheet component
  */
 public class GenericSheetComponent implements ExcelComponent<Sheet, Workbook> {
 

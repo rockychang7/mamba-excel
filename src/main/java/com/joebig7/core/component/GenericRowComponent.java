@@ -13,14 +13,15 @@ import java.util.Objects;
 /**
  * @Author JoeBig7
  * @date 2021/7/19 14:17:44
+ * @description common row component
  */
 public class GenericRowComponent implements ExcelComponent<List<Row>, Sheet> {
 
     private List<HeaderData> headerDataList;
-    private List<Object> contentDataList;
+    private List<List<Object>> contentDataList;
 
 
-    public GenericRowComponent(List<HeaderData> headerDataList, List<Object> contentDataList) {
+    public GenericRowComponent(List<HeaderData> headerDataList, List<List<Object>> contentDataList) {
         this.headerDataList = headerDataList;
         this.contentDataList = contentDataList;
     }

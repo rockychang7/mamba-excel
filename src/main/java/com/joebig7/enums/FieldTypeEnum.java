@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.CellType;
 /**
  * @Author JoeBig7
  * @date 2021/7/19 17:42:20
+ * @description  field  type
  */
 public enum FieldTypeEnum {
     INTEGER(0, CellType.NUMERIC),
