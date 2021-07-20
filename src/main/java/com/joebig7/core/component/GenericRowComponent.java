@@ -5,9 +5,7 @@ import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -35,7 +33,7 @@ public class GenericRowComponent implements ExcelComponent<List<Row>, Sheet> {
             rowLen++;
         }
 
-        if (Objects.isNull(contentDataList) && !contentDataList.isEmpty()) {
+        if (!Objects.isNull(contentDataList) && !contentDataList.isEmpty()) {
             rowLen += contentDataList.size();
         }
 

@@ -46,6 +46,7 @@ public class GenericCellComponent implements ExcelComponent<Void, List<Row>> {
 
     private void writeWithHeader(List<Row> rows, List<List<Object>> contentDataList) {
         for (int i = 0; i < rows.size(); i++) {
+            System.out.println(i);
             if (i == 0) {
                 createHeaderRow(rows);
             } else {
@@ -62,7 +63,7 @@ public class GenericCellComponent implements ExcelComponent<Void, List<Row>> {
     }
 
     public void createContentRow(int index, List<Row> rows, List<List<Object>> contentDataList) {
-        List<Object> rowDataList = contentDataList.get(index);
+        List<Object> rowDataList = contentDataList.get(index-1);
 
         for (int j = 0; j < rowDataList.size(); j++) {
             Cell cell = rows.get(index).createCell(j, headerDataList.get(j).getFieldTypeEnum().getCellType());

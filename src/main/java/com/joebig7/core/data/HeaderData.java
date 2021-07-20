@@ -8,6 +8,12 @@ import com.joebig7.enums.FieldTypeEnum;
  */
 public class HeaderData {
 
+
+    public HeaderData(String fieldName, FieldTypeEnum fieldTypeEnum) {
+        this.fieldName = fieldName;
+        this.fieldTypeEnum = fieldTypeEnum;
+    }
+
     private String fieldName;
     private FieldTypeEnum fieldTypeEnum;
 
