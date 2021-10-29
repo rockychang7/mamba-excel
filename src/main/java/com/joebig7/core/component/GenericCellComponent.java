@@ -37,8 +37,8 @@ public class GenericCellComponent implements ExcelComponent<Void, List<Row>> {
     private void writeWithOutHeader(List<Row> rows, List<List<Object>> contentDataList) {
         for (int i = 0; i < rows.size(); i++) {
             List<Object> rowDataList = contentDataList.get(i);
-            for (int j = 0; j < contentDataList.size(); j++) {
-                Cell cell = rows.get(i).createCell(i, CellType.STRING);
+            for (int j = 0; j < rowDataList.size(); j++) {
+                Cell cell = rows.get(i).createCell(j, CellType.STRING);
                 cell.setCellValue(String.valueOf(rowDataList.get(j)));
             }
         }
@@ -46,7 +46,6 @@ public class GenericCellComponent implements ExcelComponent<Void, List<Row>> {
 
     private void writeWithHeader(List<Row> rows, List<List<Object>> contentDataList) {
         for (int i = 0; i < rows.size(); i++) {
-            System.out.println(i);
             if (i == 0) {
                 createHeaderRow(rows);
             } else {
