@@ -14,6 +14,7 @@
         <poi.version>5.0.0</poi.version>
         <guava.version>30.1.1-jre</guava.version>
         <junit.version>4.13.2</junit.version>
+        <mamba-tool.version>1.0-SNAPSHOT</mamba-tool.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,13 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.joebig7</groupId>
+            <artifactId>mamba-tool-core</artifactId>
+            <version>${mamba-tool.version}</version>
         </dependency>
 
     </dependencies>
