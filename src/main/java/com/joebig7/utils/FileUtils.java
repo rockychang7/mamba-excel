@@ -1,5 +1,7 @@
 package com.joebig7.utils;
 
+import com.mamba.core.string.StringUtils;
+
 import java.io.*;
 import java.util.Objects;
 
@@ -10,6 +12,10 @@ import java.util.Objects;
  */
 public class FileUtils {
     public static FileOutputStream getFileOutputStream(String path) {
+        if (checkPath(path)) {
+            throw new IllegalArgumentException(String.format("file path %s is not legal", path));
+        }
+
         try {
             File file = new File(path);
             FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -21,6 +27,9 @@ public class FileUtils {
     }
 
     public static FileInputStream getFileInputStream(String path) {
+        if (checkPath(path)) {
+            throw new IllegalArgumentException(String.format("file path %s is not legal", path));
+        }
         try {
             FileInputStream fileInputStream = new FileInputStream(path);
             return fileInputStream;
@@ -40,5 +49,10 @@ public class FileUtils {
         if (Objects.isNull(outputStream)) {
             outputStream.close();
         }
+    }
+
+
+    private static boolean checkPath(String path) {
+        return !StringUtils.isEmpty(path);
     }
 }

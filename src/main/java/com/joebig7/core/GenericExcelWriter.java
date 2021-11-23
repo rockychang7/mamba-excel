@@ -20,7 +20,6 @@ public class GenericExcelWriter extends AbstractExcelWriter {
 
     public GenericExcelWriter(String path, FileTypeEnum fileTypeEnum) {
         super(path, fileTypeEnum);
-        this.path = path;
     }
 
     @Override
@@ -30,6 +29,8 @@ public class GenericExcelWriter extends AbstractExcelWriter {
             componentContext.combine().write(fos);
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+
         }
     }
 

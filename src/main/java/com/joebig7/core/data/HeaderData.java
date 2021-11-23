@@ -7,8 +7,6 @@ import com.joebig7.enums.FieldTypeEnum;
  * @date 2021/7/19 15:22:17
  */
 public class HeaderData {
-
-
     public HeaderData(String fieldName, FieldTypeEnum fieldTypeEnum) {
         this.fieldName = fieldName;
         this.fieldTypeEnum = fieldTypeEnum;

@@ -17,6 +17,8 @@ public class ExcelProperty {
 
     protected FileTypeEnum fileTypeEnum;
 
+    protected String sheetName;
+
     public List<HeaderData> getHeaderDataList() {
         return headerDataList;
     }
@@ -39,5 +41,13 @@ public class ExcelProperty {
 
     public void setFileTypeEnum(FileTypeEnum fileTypeEnum) {
         this.fileTypeEnum = fileTypeEnum;
+    }
+
+    public String getSheetName() {
+        return sheetName;
+    }
+
+    public void setSheetName(String sheetName) {
+        this.sheetName = sheetName;
     }
 }

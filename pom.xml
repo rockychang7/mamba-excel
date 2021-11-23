@@ -43,7 +43,6 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
             <groupId>com.joebig7</groupId>
             <artifactId>mamba-tool-core</artifactId>
