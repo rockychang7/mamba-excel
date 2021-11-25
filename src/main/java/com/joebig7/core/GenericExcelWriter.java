@@ -2,6 +2,8 @@ package com.joebig7.core;
 
 import com.joebig7.core.component.context.WriteComponentContext;
 import com.joebig7.enums.FileTypeEnum;
+import com.joebig7.utils.ExcelUtils;
+import com.joebig7.utils.FileUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileOutputStream;
@@ -17,20 +19,22 @@ public class GenericExcelWriter extends AbstractExcelWriter {
         this(path, FileTypeEnum.XLSX);
     }
 
-
     public GenericExcelWriter(String path, FileTypeEnum fileTypeEnum) {
         super(path, fileTypeEnum);
     }
 
     @Override
-    protected void doWrite(FileOutputStream fis, Workbook workbook) {
-        try (FileOutputStream fos = new FileOutputStream(path)) {
+    protected void doWrite(Workbook workbook) {
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(path);
             WriteComponentContext componentContext = getDefaultComponentContext(workbook);
             componentContext.combine().write(fos);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-
+        } finally {
+            FileUtils.closeOutputStream(fos);
+            ExcelUtils.closeWorkbook(workbook);
         }
     }
 

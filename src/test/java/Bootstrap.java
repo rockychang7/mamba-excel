@@ -4,7 +4,6 @@ import com.joebig7.core.GenericExcelWriter;
 import com.joebig7.core.data.HeaderData;
 import com.joebig7.core.data.HeaderDataBuilder;
 import com.joebig7.core.listener.DataReadListener;
-import com.joebig7.enums.FieldTypeEnum;
 import com.joebig7.enums.FileTypeEnum;
 import org.apache.commons.compress.utils.Lists;
 import org.junit.Test;
@@ -23,7 +22,7 @@ public class Bootstrap {
 
     @Test
     public void testExcelWriter() {
-        GenericExcelWriter genericExcelWriter = new GenericExcelWriter("E:/test.xlsx", FileTypeEnum.XLSX);
+        GenericExcelWriter genericExcelWriter = new GenericExcelWriter("E:/test2.xlsx", FileTypeEnum.XLSX);
 
         List<HeaderData> headerDataList = HeaderDataBuilder.instance()
                 .setHead("优惠券", STRING)

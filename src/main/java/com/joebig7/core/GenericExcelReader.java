@@ -6,6 +6,7 @@ import com.joebig7.enums.FieldTypeEnum;
 import com.joebig7.enums.FileTypeEnum;
 import com.joebig7.exception.ExcelManipulationException;
 import com.joebig7.exception.ExcelReadException;
+import com.joebig7.utils.ExcelUtils;
 import com.mamba.core.clazz.ClassUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -37,22 +38,16 @@ public class GenericExcelReader<T> extends AbstractExcelReader<T> {
      * @param workbook
      */
     @Override
-    protected void doInternalRead(Workbook workbook) {
+    protected void doInternalRead(Workbook workbook) throws NoSuchFieldException {
         Sheet sheet = workbook.getSheet(sheetName);
         if (Objects.isNull(sheet)) {
             throw new ExcelReadException(String.format("excel sheetName %s is not found", sheetName));
         }
         doDetailRead(sheet);
-        finishRead();
-    }
-
-
-    /**
-     * 除非读完之后的动作
-     */
-    private void finishRead() {
         readListener.doAfterRead();
+        ExcelUtils.closeWorkbook(workbook);
     }
+
 
     /**
      * 读取excel具体的内容
@@ -60,10 +55,9 @@ public class GenericExcelReader<T> extends AbstractExcelReader<T> {
      * @param sheet
      * @return
      */
-    private void doDetailRead(Sheet sheet) {
+    private void doDetailRead(Sheet sheet) throws NoSuchFieldException {
         int rowNum = sheet.getPhysicalNumberOfRows();
         for (int i = 1; i < rowNum; i++) {
-
             Object cellObj = null;
             Row row = sheet.getRow(i);
             try {
@@ -75,10 +69,9 @@ public class GenericExcelReader<T> extends AbstractExcelReader<T> {
             }
             for (int j = 0; j < headerDataList.size(); j++) {
                 Cell cell = row.getCell(j);
-                //监听事件，全局上下文来存储 data
+                //监听事件，全局上下文存储data
                 invokeDataAssembly(cellObj, cell, headerDataList.get(j));
             }
-
             readListener.invoke((T) cellObj);
         }
     }
@@ -90,7 +83,7 @@ public class GenericExcelReader<T> extends AbstractExcelReader<T> {
      * @param obj
      * @param cell
      */
-    private void invokeDataAssembly(Object obj, Cell cell, HeaderData headerData) {
+    private void invokeDataAssembly(Object obj, Cell cell, HeaderData headerData) throws NoSuchFieldException {
         String fieldName = headerData.getFieldName();
         Object cellValue = getCellValue(cell, headerData.getFieldTypeEnum());
         ClassUtils.setField(obj, type, fieldName, cellValue);

@@ -5,6 +5,7 @@ import com.joebig7.core.data.HeaderData;
 import com.joebig7.core.factory.WorkBookFactory;
 import com.joebig7.core.listener.ReadListener;
 import com.joebig7.enums.FileTypeEnum;
+import com.joebig7.exception.ExcelHeaderException;
 import com.joebig7.exception.ExcelReadException;
 import com.joebig7.utils.FileUtils;
 import com.mamba.core.collection.CollectionsUtils;
@@ -36,10 +37,16 @@ public abstract class AbstractExcelReader<T> extends ExcelProperty {
         }
 
         FileInputStream fileInputStream = FileUtils.getFileInputStream(path);
-        doInternalRead(WorkBookFactory.readInstance(fileInputStream, fileTypeEnum, path));
+        try {
+            doInternalRead(WorkBookFactory.readInstance(fileInputStream, fileTypeEnum, path));
+        } catch (NoSuchFieldException e) {
+            throw new ExcelHeaderException("field name is not suitable for pointed class");
+        }finally {
+             FileUtils.closeInputStream(fileInputStream);
+        }
     }
 
-    abstract protected void doInternalRead(Workbook workbook);
+    abstract protected void doInternalRead(Workbook workbook) throws NoSuchFieldException;
 
 
     /**

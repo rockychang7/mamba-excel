@@ -30,9 +30,8 @@ public abstract class AbstractExcelWriter extends ExcelProperty {
     }
 
     private void write(String path, FileTypeEnum fileTypeEnum) {
-        FileOutputStream fis = FileUtils.getFileOutputStream(path);
-        doWrite(fis, WorkBookFactory.writeInstance(fileTypeEnum,path));
+        doWrite(WorkBookFactory.writeInstance(fileTypeEnum, path));
     }
 
-    abstract protected void doWrite(FileOutputStream fis, Workbook workbook);
+    abstract protected void doWrite(Workbook workbook);
 }

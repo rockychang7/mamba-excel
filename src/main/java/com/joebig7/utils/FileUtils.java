@@ -39,15 +39,23 @@ public class FileUtils {
         return null;
     }
 
-    public static void closeInputStream(InputStream inputStream) throws IOException {
-        if (Objects.isNull(inputStream)) {
-            inputStream.close();
+    public static void closeInputStream(InputStream inputStream) {
+        if (!Objects.isNull(inputStream)) {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static void closeOutputStream(OutputStream outputStream) throws IOException {
-        if (Objects.isNull(outputStream)) {
-            outputStream.close();
+    public static void closeOutputStream(OutputStream outputStream){
+        if (!Objects.isNull(outputStream)) {
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
