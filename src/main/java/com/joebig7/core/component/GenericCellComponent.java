@@ -1,6 +1,7 @@
 package com.joebig7.core.component;
 
 import com.joebig7.core.data.HeaderData;
+import com.joebig7.enums.FieldTypeEnum;
 import com.joebig7.exception.ExcelManipulationException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -62,37 +63,36 @@ public class GenericCellComponent implements ExcelComponent<Void, List<Row>> {
     }
 
     public void createContentRow(int index, List<Row> rows, List<List<Object>> contentDataList) {
-        List<Object> rowDataList = contentDataList.get(index-1);
-
+        List<Object> rowDataList = contentDataList.get(index - 1);
         for (int j = 0; j < rowDataList.size(); j++) {
             Cell cell = rows.get(index).createCell(j, headerDataList.get(j).getFieldTypeEnum().getCellType());
-            int type = headerDataList.get(j).getFieldTypeEnum().getType();
+            FieldTypeEnum type = headerDataList.get(j).getFieldTypeEnum();
             String strValue = rowDataList.get(j) + "";
             switch (type) {
-                case 0:
+                case INTEGER:
                     cell.setCellValue(Integer.parseInt(strValue));
                     break;
-                case 1:
+                case LONG:
                     cell.setCellValue(Long.parseLong(strValue));
                     break;
-                case 2:
+                case DOUBLE:
                     cell.setCellValue(Double.parseDouble(strValue));
                     break;
-                case 3:
+                case FLOAT:
                     cell.setCellValue(Float.parseFloat(strValue));
                     break;
-                case 4:
+                case BOOLEAN:
                     cell.setCellValue(Boolean.parseBoolean(strValue));
                     break;
-                case 5:
-                case 6:
+                case STRING:
+                case FORMULA:
                     cell.setCellValue(strValue);
                     break;
-                case 7:
+                case BLANK:
                     cell.setCellValue("");
                     break;
                 default:
-                    throw new ExcelManipulationException("no right type for cell value");
+                    throw new ExcelManipulationException("no suitable type for cell value");
             }
         }
     }

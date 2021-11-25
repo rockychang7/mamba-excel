@@ -1,8 +1,12 @@
 package com.joebig7.core;
 
 import com.joebig7.constant.ExcelConstant;
+import com.joebig7.core.data.HeaderData;
+import com.joebig7.enums.FieldTypeEnum;
 import com.joebig7.enums.FileTypeEnum;
+import com.joebig7.exception.ExcelManipulationException;
 import com.joebig7.exception.ExcelReadException;
+import com.mamba.core.clazz.ClassUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -39,8 +43,16 @@ public class GenericExcelReader<T> extends AbstractExcelReader<T> {
             throw new ExcelReadException(String.format("excel sheetName %s is not found", sheetName));
         }
         doDetailRead(sheet);
+        finishRead();
     }
 
+
+    /**
+     * 除非读完之后的动作
+     */
+    private void finishRead() {
+        readListener.doAfterRead();
+    }
 
     /**
      * 读取excel具体的内容
@@ -51,13 +63,58 @@ public class GenericExcelReader<T> extends AbstractExcelReader<T> {
     private void doDetailRead(Sheet sheet) {
         int rowNum = sheet.getPhysicalNumberOfRows();
         for (int i = 1; i < rowNum; i++) {
-            Row row = sheet.getRow(i);
-            for (int j = 0; j < headerDataList.size(); j++) {
-                //监听事件，全局上下文来存储 data
-                Cell cell = row.getCell(j);
 
+            Object cellObj = null;
+            Row row = sheet.getRow(i);
+            try {
+                cellObj = type.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            for (int j = 0; j < headerDataList.size(); j++) {
+                Cell cell = row.getCell(j);
+                //监听事件，全局上下文来存储 data
+                invokeDataAssembly(cellObj, cell, headerDataList.get(j));
             }
 
+            readListener.invoke((T) cellObj);
+        }
+    }
+
+
+    /**
+     * 组装cell数据
+     *
+     * @param obj
+     * @param cell
+     */
+    private void invokeDataAssembly(Object obj, Cell cell, HeaderData headerData) {
+        String fieldName = headerData.getFieldName();
+        Object cellValue = getCellValue(cell, headerData.getFieldTypeEnum());
+        ClassUtils.setField(obj, type, fieldName, cellValue);
+    }
+
+    private Object getCellValue(Cell cell, FieldTypeEnum fieldTypeEnum) {
+        switch (fieldTypeEnum) {
+            case INTEGER:
+                return (int) cell.getNumericCellValue();
+            case LONG:
+                return (long) cell.getNumericCellValue();
+            case DOUBLE:
+                return cell.getNumericCellValue();
+            case FLOAT:
+                return (float) cell.getNumericCellValue();
+            case BOOLEAN:
+                return cell.getBooleanCellValue();
+            case STRING:
+            case FORMULA:
+                return cell.getStringCellValue();
+            case BLANK:
+                return "";
+            default:
+                throw new ExcelManipulationException("no suitable type for cell value");
         }
     }
 }

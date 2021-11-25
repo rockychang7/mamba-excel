@@ -53,6 +53,6 @@ public class FileUtils {
 
 
     private static boolean checkPath(String path) {
-        return !StringUtils.isEmpty(path);
+        return StringUtils.isEmpty(path);
     }
 }
