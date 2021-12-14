@@ -9,7 +9,8 @@ package com.joebig7.enums;
 public enum FileTypeEnum {
 
     XLS("xls"),
-    XLSX("xlsx");
+    XLSX("xlsx"),
+    CSV("csv");
 
 
     String fileType;

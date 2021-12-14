@@ -2,7 +2,7 @@ package com.joebig7.core;
 
 import com.joebig7.core.component.ExcelProperty;
 import com.joebig7.core.data.HeaderData;
-import com.joebig7.core.factory.WorkBookFactory;
+import com.joebig7.core.factory.ExcelFactory;
 import com.joebig7.core.listener.ReadListener;
 import com.joebig7.enums.FileTypeEnum;
 import com.joebig7.exception.ExcelHeaderException;
@@ -18,11 +18,18 @@ import java.util.List;
  * @Author JoeBig7
  * @date 2021/11/18 19:06:53
  */
-public abstract class AbstractExcelReader<T> extends ExcelProperty {
+public abstract class AbstractReader<T> extends ExcelProperty {
     ReadListener<T> readListener;
     Class type;
 
-    public AbstractExcelReader(String path, Class type, FileTypeEnum fileTypeEnum, String sheetName) {
+
+    public AbstractReader(String path, Class type, FileTypeEnum fileTypeEnum) {
+        this.path = path;
+        this.fileTypeEnum = fileTypeEnum;
+        this.type = type;
+    }
+
+    public AbstractReader(String path, Class type, FileTypeEnum fileTypeEnum, String sheetName) {
         this.path = path;
         this.fileTypeEnum = fileTypeEnum;
         this.sheetName = sheetName;
@@ -38,7 +45,7 @@ public abstract class AbstractExcelReader<T> extends ExcelProperty {
 
         FileInputStream fileInputStream = FileUtils.getFileInputStream(path);
         try {
-            doInternalRead(WorkBookFactory.readInstance(fileInputStream, fileTypeEnum, path));
+            doInternalRead(ExcelFactory.readInstance(fileInputStream, fileTypeEnum, path));
         } catch (NoSuchFieldException e) {
             throw new ExcelHeaderException("field name is not suitable for pointed class");
         }finally {

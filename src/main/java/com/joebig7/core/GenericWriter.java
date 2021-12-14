@@ -1,9 +1,11 @@
 package com.joebig7.core;
 
 import com.joebig7.core.component.context.WriteComponentContext;
-import com.joebig7.enums.FileTypeEnum;
+import com.joebig7.core.factory.CsvFactory;
+import com.joebig7.utils.CsvUtils;
 import com.joebig7.utils.ExcelUtils;
 import com.joebig7.utils.FileUtils;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileOutputStream;
@@ -14,17 +16,19 @@ import java.io.IOException;
  * @date 2021/7/16 16:39:56
  * @description generic excel writer class
  */
-public class GenericExcelWriter extends AbstractExcelWriter {
-    public GenericExcelWriter(String path) {
-        this(path, FileTypeEnum.XLSX);
+public class GenericWriter extends AbstractWriter {
+
+    public GenericWriter(String path) {
+        super(path);
     }
 
-    public GenericExcelWriter(String path, FileTypeEnum fileTypeEnum) {
-        super(path, fileTypeEnum);
-    }
-
+    /**
+     * 写出excel文件
+     *
+     * @param workbook
+     */
     @Override
-    protected void doWrite(Workbook workbook) {
+    protected void doExcelWrite(Workbook workbook) {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(path);
@@ -38,6 +42,30 @@ public class GenericExcelWriter extends AbstractExcelWriter {
         }
     }
 
+    /**
+     * 写出csv文件
+     *
+     * @param path
+     */
+    @Override
+    protected void doCsvWrite(String path) {
+        CSVPrinter csvPrinter = CsvFactory.instance(path);
+        try {
+            CsvUtils.write(csvPrinter, headerDataList, contentDataList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            CsvUtils.flush(csvPrinter);
+            CsvUtils.close(csvPrinter);
+        }
+    }
+
+    /**
+     * 获取excel组件
+     *
+     * @param workbook
+     * @return
+     */
     private WriteComponentContext getDefaultComponentContext(Workbook workbook) {
         WriteComponentContext componentContext = new WriteComponentContext(workbook, headerDataList, contentDataList);
         return componentContext;

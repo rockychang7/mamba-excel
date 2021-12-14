@@ -2,12 +2,11 @@ package com.joebig7.core;
 
 import com.joebig7.core.component.ExcelProperty;
 import com.joebig7.core.data.HeaderData;
-import com.joebig7.core.factory.WorkBookFactory;
+import com.joebig7.core.factory.ExcelFactory;
 import com.joebig7.enums.FileTypeEnum;
-import com.joebig7.utils.FileUtils;
+import com.mamba.core.file.FileUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -15,23 +14,29 @@ import java.util.List;
  * @date 2021/7/12 17:37:40
  * @description excel writer parent class
  */
-public abstract class AbstractExcelWriter extends ExcelProperty {
+public abstract class AbstractWriter extends ExcelProperty {
     protected List<List<Object>> contentDataList;
 
-    public AbstractExcelWriter(String path, FileTypeEnum fileTypeEnum) {
+    public AbstractWriter(String path) {
         this.path = path;
-        this.fileTypeEnum = fileTypeEnum;
     }
 
     public void write(List<HeaderData> headerDataList, List<List<Object>> contentDataList) {
         this.headerDataList = headerDataList;
         this.contentDataList = contentDataList;
-        write(path, fileTypeEnum);
+        write(path);
     }
 
-    private void write(String path, FileTypeEnum fileTypeEnum) {
-        doWrite(WorkBookFactory.writeInstance(fileTypeEnum, path));
+    private void write(String path) {
+        String suffix = FileUtils.suffix(path);
+        if(FileTypeEnum.CSV.equals(suffix)){
+            doCsvWrite(path);
+        }else {
+            doExcelWrite(ExcelFactory.writeInstance(path));
+        }
     }
 
-    abstract protected void doWrite(Workbook workbook);
+    abstract protected void doExcelWrite(Workbook workbook);
+
+    abstract protected void doCsvWrite(String path);
 }

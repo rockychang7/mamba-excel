@@ -1,6 +1,6 @@
 import com.alibaba.fastjson.JSON;
-import com.joebig7.core.GenericExcelReader;
-import com.joebig7.core.GenericExcelWriter;
+import com.joebig7.core.GenericReader;
+import com.joebig7.core.GenericWriter;
 import com.joebig7.core.data.HeaderData;
 import com.joebig7.core.data.HeaderDataBuilder;
 import com.joebig7.core.listener.DataReadListener;
@@ -18,11 +18,11 @@ import static com.joebig7.enums.FieldTypeEnum.*;
  * @date 2021/7/20 13:57:34
  */
 
-public class Bootstrap {
+public class ExcelDemo {
 
     @Test
     public void testExcelWriter() {
-        GenericExcelWriter genericExcelWriter = new GenericExcelWriter("E:/test2.xlsx", FileTypeEnum.XLSX);
+        GenericWriter genericWriter = new GenericWriter("E:/test2.xlsx");
 
         List<HeaderData> headerDataList = HeaderDataBuilder.instance()
                 .setHead("优惠券", STRING)
@@ -40,13 +40,13 @@ public class Bootstrap {
             valueList.add(10);
             contentList.add(valueList);
         });
-        genericExcelWriter.write(headerDataList, contentList);
+        genericWriter.write(headerDataList, contentList);
     }
 
 
     @Test
     public void testExcelReader() {
-        GenericExcelReader<User> reader = new GenericExcelReader<>("E:/test.xlsx", User.class);
+        GenericReader<User> reader = new GenericReader<>("E:/test.xlsx", User.class);
         List<HeaderData> headerDataList = HeaderDataBuilder.instance()
                 .setHead("name", STRING)
                 .setHead("age", INTEGER)

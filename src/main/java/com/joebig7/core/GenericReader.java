@@ -19,16 +19,16 @@ import java.util.Objects;
  * @Author JoeBig7
  * @date 2021/11/18 19:17:12
  */
-public class GenericExcelReader<T> extends AbstractExcelReader<T> {
-    public GenericExcelReader(String path, Class type) {
+public class GenericReader<T> extends AbstractReader<T> {
+    public GenericReader(String path, Class type) {
         this(path, type, FileTypeEnum.XLSX, ExcelConstant.DEFAULT_SHEET_NAME);
     }
 
-    public GenericExcelReader(String path, Class type, FileTypeEnum fileTypeEnum) {
+    public GenericReader(String path, Class type, FileTypeEnum fileTypeEnum) {
         this(path, type, fileTypeEnum, ExcelConstant.DEFAULT_SHEET_NAME);
     }
 
-    public GenericExcelReader(String path, Class type, FileTypeEnum fileTypeEnum, String sheetName) {
+    public GenericReader(String path, Class type, FileTypeEnum fileTypeEnum, String sheetName) {
         super(path, type, fileTypeEnum, sheetName);
     }
 
