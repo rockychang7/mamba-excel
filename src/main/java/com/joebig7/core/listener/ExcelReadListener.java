@@ -12,12 +12,12 @@ import java.util.function.Consumer;
  * @date 2021/11/23 10:58:54
  * @description 处理excel读取出来的数据
  */
-public class DataReadListener<T> implements ReadListener<T> {
+public class ExcelReadListener<T> implements ReadListener<T> {
 
     private List<T> contentDataList;
     private final Consumer<List<T>> consumer;
 
-    public DataReadListener(Consumer<List<T>> consumer) {
+    public ExcelReadListener(Consumer<List<T>> consumer) {
         this.contentDataList = new ArrayList<>();
         this.consumer = consumer;
     }

@@ -7,8 +7,9 @@ import com.joebig7.core.listener.ReadListener;
 import com.joebig7.enums.FileTypeEnum;
 import com.joebig7.exception.ExcelHeaderException;
 import com.joebig7.exception.ExcelReadException;
-import com.joebig7.utils.FileUtils;
+import com.joebig7.utils.CommonFileUtils;
 import com.mamba.core.collection.CollectionsUtils;
+import com.mamba.core.file.FileUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileInputStream;
@@ -22,38 +23,25 @@ public abstract class AbstractReader<T> extends ExcelProperty {
     ReadListener<T> readListener;
     Class type;
 
-
-    public AbstractReader(String path, Class type, FileTypeEnum fileTypeEnum) {
+    public AbstractReader(String path, Class type, String sheetName) {
         this.path = path;
-        this.fileTypeEnum = fileTypeEnum;
-        this.type = type;
-    }
-
-    public AbstractReader(String path, Class type, FileTypeEnum fileTypeEnum, String sheetName) {
-        this.path = path;
-        this.fileTypeEnum = fileTypeEnum;
         this.sheetName = sheetName;
         this.type = type;
     }
 
     public void read(List<HeaderData> headerDataList, ReadListener<T> readListener) {
-        initReadContext(headerDataList, readListener);
-
-        if (CollectionsUtils.isEmpty(headerDataList)) {
-            throw new ExcelReadException("excel header can not be null");
-        }
-
-        FileInputStream fileInputStream = FileUtils.getFileInputStream(path);
-        try {
-            doInternalRead(ExcelFactory.readInstance(fileInputStream, fileTypeEnum, path));
-        } catch (NoSuchFieldException e) {
-            throw new ExcelHeaderException("field name is not suitable for pointed class");
-        }finally {
-             FileUtils.closeInputStream(fileInputStream);
+        initExcelReadContext(headerDataList, readListener);
+        String suffix = FileUtils.suffix(path);
+        if (FileTypeEnum.CSV.getFileType().equalsIgnoreCase(suffix)) {
+            doCsvWrite();
+        } else {
+            doExcelRead();
         }
     }
 
-    abstract protected void doInternalRead(Workbook workbook) throws NoSuchFieldException;
+    abstract protected void doExcelRead();
+
+    abstract protected void doCsvWrite();
 
 
     /**
@@ -62,7 +50,7 @@ public abstract class AbstractReader<T> extends ExcelProperty {
      * @param headerDataList
      * @param readListener
      */
-    private void initReadContext(List<HeaderData> headerDataList, ReadListener<T> readListener) {
+    private void initExcelReadContext(List<HeaderData> headerDataList, ReadListener<T> readListener) {
         this.headerDataList = headerDataList;
         this.readListener = readListener;
     }

@@ -4,7 +4,7 @@ import com.joebig7.core.component.context.WriteComponentContext;
 import com.joebig7.core.factory.CsvFactory;
 import com.joebig7.utils.CsvUtils;
 import com.joebig7.utils.ExcelUtils;
-import com.joebig7.utils.FileUtils;
+import com.joebig7.utils.CommonFileUtils;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -37,7 +37,7 @@ public class GenericWriter extends AbstractWriter {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            FileUtils.closeOutputStream(fos);
+            CommonFileUtils.closeOutputStream(fos);
             ExcelUtils.closeWorkbook(workbook);
         }
     }
@@ -49,7 +49,7 @@ public class GenericWriter extends AbstractWriter {
      */
     @Override
     protected void doCsvWrite(String path) {
-        CSVPrinter csvPrinter = CsvFactory.instance(path);
+        CSVPrinter csvPrinter = CsvFactory.writeInstance(path);
         try {
             CsvUtils.write(csvPrinter, headerDataList, contentDataList);
         } catch (IOException e) {

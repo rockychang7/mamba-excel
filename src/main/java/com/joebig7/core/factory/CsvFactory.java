@@ -1,10 +1,13 @@
 package com.joebig7.core.factory;
 
+import com.joebig7.utils.CommonFileUtils;
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 
 /**
  * @Author JoeBig7
@@ -18,8 +21,8 @@ public class CsvFactory {
      * @param path
      * @return
      */
-    public static CSVPrinter instance(String path) {
-        return instance(path, CSVFormat.DEFAULT);
+    public static CSVPrinter writeInstance(String path) {
+        return writeInstance(path, CSVFormat.DEFAULT);
     }
 
     /**
@@ -29,7 +32,7 @@ public class CsvFactory {
      * @param csvFormat
      * @return
      */
-    public static CSVPrinter instance(String path, CSVFormat csvFormat) {
+    public static CSVPrinter writeInstance(String path, CSVFormat csvFormat) {
         CSVPrinter printer = null;
         try {
             printer = new CSVPrinter(new FileWriter(path), CSVFormat.DEFAULT);
@@ -38,4 +41,24 @@ public class CsvFactory {
         }
         return printer;
     }
+
+
+    /**
+     * 获取csv读取实例
+     *
+     * @param path
+     * @return
+     */
+    public static CSVParser readInstance(String path) {
+        Reader reader = CommonFileUtils.getFileReader(path);
+        CSVParser parse = null;
+        try {
+            parse = CSVParser.parse(reader, CSVFormat.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return parse;
+    }
+
 }

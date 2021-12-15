@@ -3,8 +3,7 @@ import com.joebig7.core.GenericReader;
 import com.joebig7.core.GenericWriter;
 import com.joebig7.core.data.HeaderData;
 import com.joebig7.core.data.HeaderDataBuilder;
-import com.joebig7.core.listener.DataReadListener;
-import com.joebig7.enums.FileTypeEnum;
+import com.joebig7.core.listener.ExcelReadListener;
 import org.apache.commons.compress.utils.Lists;
 import org.junit.Test;
 
@@ -55,7 +54,7 @@ public class ExcelDemo {
                 .setHead("isMarried", BOOLEAN)
                 .build();
 
-        reader.read(headerDataList, new DataReadListener<>((users -> {
+        reader.read(headerDataList, new ExcelReadListener<>((users -> {
             //这边可以对查询到的结果进行特定逻辑的处理
             System.out.println(JSON.toJSONString(users));
         })));

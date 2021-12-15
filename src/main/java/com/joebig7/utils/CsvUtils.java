@@ -2,11 +2,13 @@ package com.joebig7.utils;
 
 import com.joebig7.core.data.HeaderData;
 import com.joebig7.exception.CsvException;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @Author JoeBig7
@@ -28,18 +30,22 @@ public class CsvUtils {
         }
 
         if (Objects.nonNull(headerDataList)) {
-            for (HeaderData headerData : headerDataList) {
-                csvPrinter.printRecord(headerData.getFieldName());
-            }
+            List<String> headerNames = headerDataList.stream().map(HeaderData::getFieldName).collect(Collectors.toList());
+            csvPrinter.printRecord(headerNames);
         }
 
         if (Objects.nonNull(contentDataList)) {
             for (List<Object> list : contentDataList) {
-                for (Object obj : list) {
-                    csvPrinter.printRecord(obj);
-                }
+                    csvPrinter.printRecord(list);
             }
         }
+    }
+
+
+    public static void read(){
+
+
+
     }
 
 

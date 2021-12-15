@@ -29,7 +29,7 @@ public abstract class AbstractWriter extends ExcelProperty {
 
     private void write(String path) {
         String suffix = FileUtils.suffix(path);
-        if(FileTypeEnum.CSV.equals(suffix)){
+        if(FileTypeEnum.CSV.getFileType().equalsIgnoreCase(suffix)){
             doCsvWrite(path);
         }else {
             doExcelWrite(ExcelFactory.writeInstance(path));

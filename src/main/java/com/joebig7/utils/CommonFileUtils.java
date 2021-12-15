@@ -10,7 +10,14 @@ import java.util.Objects;
  * @date 2021/7/12 17:42:45
  * @description 文件工具
  */
-public class FileUtils {
+public class CommonFileUtils {
+
+    /**
+     * 获取文件输出流 FileOutputStream
+     *
+     * @param path
+     * @return
+     */
     public static FileOutputStream getFileOutputStream(String path) {
         if (checkPath(path)) {
             throw new IllegalArgumentException(String.format("file path %s is not legal", path));
@@ -26,17 +33,45 @@ public class FileUtils {
         return null;
     }
 
+    /**
+     * 获取文件输入流 FileInputStream
+     *
+     * @param path
+     * @return
+     */
     public static FileInputStream getFileInputStream(String path) {
         if (checkPath(path)) {
             throw new IllegalArgumentException(String.format("file path %s is not legal", path));
         }
+        FileInputStream fileInputStream = null;
+
         try {
-            FileInputStream fileInputStream = new FileInputStream(path);
+            fileInputStream = new FileInputStream(path);
             return fileInputStream;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return fileInputStream;
+    }
+
+
+    /**
+     *
+     * @param path
+     * @return
+     */
+    public static Reader getFileReader(String path) {
+        if (checkPath(path)) {
+            throw new IllegalArgumentException(String.format("file path %s is not legal", path));
+        }
+        Reader reader = null;
+        try {
+            reader = new FileReader(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return reader;
     }
 
     public static void closeInputStream(InputStream inputStream) {
@@ -49,7 +84,8 @@ public class FileUtils {
         }
     }
 
-    public static void closeOutputStream(OutputStream outputStream){
+
+    public static void closeOutputStream(OutputStream outputStream) {
         if (!Objects.isNull(outputStream)) {
             try {
                 outputStream.close();
