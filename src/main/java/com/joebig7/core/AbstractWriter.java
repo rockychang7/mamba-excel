@@ -15,10 +15,12 @@ import java.util.List;
  * @description excel writer parent class
  */
 public abstract class AbstractWriter extends ExcelProperty {
-    protected List<List<Object>> contentDataList;
-
     public AbstractWriter(String path) {
         this.path = path;
+    }
+
+    public void write() {
+        write(path);
     }
 
     public void write(List<HeaderData> headerDataList, List<List<Object>> contentDataList) {
@@ -29,14 +31,24 @@ public abstract class AbstractWriter extends ExcelProperty {
 
     private void write(String path) {
         String suffix = FileUtils.suffix(path);
-        if(FileTypeEnum.CSV.getFileType().equalsIgnoreCase(suffix)){
+        if (FileTypeEnum.CSV.getFileType().equalsIgnoreCase(suffix)) {
             doCsvWrite(path);
-        }else {
+        } else {
             doExcelWrite(ExcelFactory.writeInstance(path));
         }
     }
 
+    /**
+     * 写excel文件 可以覆盖定性定制化操作
+     *
+     * @param workbook
+     */
     abstract protected void doExcelWrite(Workbook workbook);
 
+    /**
+     * 写csv文件  可以覆盖进行定制化操作
+     *
+     * @param path
+     */
     abstract protected void doCsvWrite(String path);
 }

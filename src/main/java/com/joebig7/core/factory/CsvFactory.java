@@ -8,6 +8,8 @@ import org.apache.commons.csv.CSVPrinter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author JoeBig7
@@ -46,14 +48,13 @@ public class CsvFactory {
     /**
      * 获取csv读取实例
      *
-     * @param path
+     * @param reader
      * @return
      */
-    public static CSVParser readInstance(String path) {
-        Reader reader = CommonFileUtils.getFileReader(path);
+    public static CSVParser readInstance(Reader reader, String[] headers) {
         CSVParser parse = null;
         try {
-            parse = CSVParser.parse(reader, CSVFormat.DEFAULT);
+            parse = CSVParser.parse(reader, CSVFormat.Builder.create().setHeader(headers).build());
         } catch (IOException e) {
             e.printStackTrace();
         }

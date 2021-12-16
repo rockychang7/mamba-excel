@@ -25,17 +25,29 @@ public class GenericCellComponent implements ExcelComponent<Void, List<Row>> {
         this.contentDataList = contentDataList;
     }
 
+    /**
+     * 创建cell
+     *
+     * @param rows
+     * @return
+     */
     @Override
     public Void create(List<Row> rows) {
         if (Objects.isNull(headerDataList) || headerDataList.isEmpty()) {
-            writeWithOutHeader(rows, contentDataList);
+            createWithOutHeader(rows, contentDataList);
         } else {
-            writeWithHeader(rows, contentDataList);
+            createWithHeader(rows, contentDataList);
         }
         return null;
     }
 
-    private void writeWithOutHeader(List<Row> rows, List<List<Object>> contentDataList) {
+    /**
+     * 创建不包含标题头的cell
+     *
+     * @param rows
+     * @param contentDataList
+     */
+    private void createWithOutHeader(List<Row> rows, List<List<Object>> contentDataList) {
         for (int i = 0; i < rows.size(); i++) {
             List<Object> rowDataList = contentDataList.get(i);
             for (int j = 0; j < rowDataList.size(); j++) {
@@ -45,24 +57,40 @@ public class GenericCellComponent implements ExcelComponent<Void, List<Row>> {
         }
     }
 
-    private void writeWithHeader(List<Row> rows, List<List<Object>> contentDataList) {
+    /**
+     * 创建包含标题头的cell
+     *
+     * @param rows
+     * @param contentDataList
+     */
+    private void createWithHeader(List<Row> rows, List<List<Object>> contentDataList) {
         for (int i = 0; i < rows.size(); i++) {
             if (i == 0) {
-                createHeaderRow(rows);
+                createHeaderCell(rows);
             } else {
-                createContentRow(i, rows, contentDataList);
+                createContentCell(i, rows, contentDataList);
             }
         }
     }
 
-    private void createHeaderRow(List<Row> rows) {
+    /**
+     * 创建header中cell具体操作
+     *
+     * @param rows
+     */
+    private void createHeaderCell(List<Row> rows) {
         Row headerRow = rows.get(0);
         for (int i = 0; i < headerDataList.size(); i++) {
             headerRow.createCell(i).setCellValue(headerDataList.get(i).getFieldName());
         }
     }
 
-    public void createContentRow(int index, List<Row> rows, List<List<Object>> contentDataList) {
+    /**
+     * 创建content中cell具体操作
+     *
+     * @param rows
+     */
+    public void createContentCell(int index, List<Row> rows, List<List<Object>> contentDataList) {
         List<Object> rowDataList = contentDataList.get(index - 1);
         for (int j = 0; j < rowDataList.size(); j++) {
             Cell cell = rows.get(index).createCell(j, headerDataList.get(j).getFieldTypeEnum().getCellType());

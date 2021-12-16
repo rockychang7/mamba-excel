@@ -56,6 +56,7 @@ public class CommonFileUtils {
 
 
     /**
+     * 获取Reader对象
      *
      * @param path
      * @return
@@ -74,6 +75,11 @@ public class CommonFileUtils {
         return reader;
     }
 
+    /**
+     * 关闭 InputStream
+     *
+     * @param inputStream
+     */
     public static void closeInputStream(InputStream inputStream) {
         if (!Objects.isNull(inputStream)) {
             try {
@@ -85,10 +91,30 @@ public class CommonFileUtils {
     }
 
 
+    /**
+     * 关闭 OutputStream
+     *
+     * @param outputStream
+     */
     public static void closeOutputStream(OutputStream outputStream) {
         if (!Objects.isNull(outputStream)) {
             try {
                 outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 关闭 Reader
+     *
+     * @param Reader
+     */
+    public static void closeReader(Reader reader) {
+        if (!Objects.isNull(reader)) {
+            try {
+                reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -12,16 +12,21 @@ import java.util.function.Consumer;
  * @date 2021/11/23 10:58:54
  * @description 处理excel读取出来的数据
  */
-public class ExcelReadListener<T> implements ReadListener<T> {
+public class DataReadListener<T> implements ReadListener<T> {
 
     private List<T> contentDataList;
     private final Consumer<List<T>> consumer;
 
-    public ExcelReadListener(Consumer<List<T>> consumer) {
+    public DataReadListener(Consumer<List<T>> consumer) {
         this.contentDataList = new ArrayList<>();
         this.consumer = consumer;
     }
 
+    /**
+     * invoke 监听全局内容
+     *
+     * @param data
+     */
     @Override
     public void invoke(T data) {
         if (!Objects.isNull(data)) {
@@ -29,6 +34,9 @@ public class ExcelReadListener<T> implements ReadListener<T> {
         }
     }
 
+    /**
+     * 监听后置操作，进行定制化操作
+     */
     @Override
     public void doAfterRead() {
         if (!CollectionsUtils.isEmpty(contentDataList)) {

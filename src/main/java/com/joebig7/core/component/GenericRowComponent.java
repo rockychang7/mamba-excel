@@ -24,6 +24,11 @@ public class GenericRowComponent implements ExcelComponent<List<Row>, Sheet> {
         this.contentDataList = contentDataList;
     }
 
+    /**
+     * 创建row
+     * @param sheet
+     * @return
+     */
     @Override
     public List<Row> create(Sheet sheet) {
         int rowLen = 0;

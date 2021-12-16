@@ -12,7 +12,19 @@ public class User {
 
     private Double salary;
 
-    private Boolean isMarried;
+    private Boolean married;
+
+    public User() {
+
+    }
+
+    public User(String name, Integer age, String address, Double salary, Boolean married) {
+        this.name = name;
+        this.age = age;
+        this.address = address;
+        this.salary = salary;
+        this.married = married;
+    }
 
     public String getName() {
         return name;
@@ -47,10 +59,10 @@ public class User {
     }
 
     public Boolean getMarried() {
-        return isMarried;
+        return married;
     }
 
     public void setMarried(Boolean married) {
-        isMarried = married;
+        this.married = married;
     }
 }

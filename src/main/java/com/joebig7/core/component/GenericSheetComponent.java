@@ -17,6 +17,12 @@ public class GenericSheetComponent implements ExcelComponent<Sheet, Workbook> {
         this.name = name == null ? DEFAULT_SHEET : name;
     }
 
+    /**
+     * 创建sheet
+     *
+     * @param workbook
+     * @return
+     */
     @Override
     public Sheet create(Workbook workbook) {
         return workbook.createSheet(name);

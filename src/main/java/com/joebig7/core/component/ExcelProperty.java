@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * @Author JoeBig7
  * @date 2021/11/18 19:07:57
+ * @description excel property define
  */
 public class ExcelProperty {
 
@@ -17,7 +18,9 @@ public class ExcelProperty {
 
     protected FileTypeEnum fileTypeEnum;
 
-    protected String sheetName;
+    protected List<List<Object>> contentDataList;
+
+    protected String sheetName = "Sheet1";
 
     public List<HeaderData> getHeaderDataList() {
         return headerDataList;
@@ -49,5 +52,13 @@ public class ExcelProperty {
 
     public void setSheetName(String sheetName) {
         this.sheetName = sheetName;
+    }
+
+    public List<List<Object>> getContentDataList() {
+        return contentDataList;
+    }
+
+    public void setContentDataList(List<List<Object>> contentDataList) {
+        this.contentDataList = contentDataList;
     }
 }

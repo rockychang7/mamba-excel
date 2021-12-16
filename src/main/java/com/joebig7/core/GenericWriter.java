@@ -1,6 +1,6 @@
 package com.joebig7.core;
 
-import com.joebig7.core.component.context.WriteComponentContext;
+import com.joebig7.core.component.context.ExcelContext;
 import com.joebig7.core.factory.CsvFactory;
 import com.joebig7.utils.CsvUtils;
 import com.joebig7.utils.ExcelUtils;
@@ -32,7 +32,7 @@ public class GenericWriter extends AbstractWriter {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(path);
-            WriteComponentContext componentContext = getDefaultComponentContext(workbook);
+            ExcelContext componentContext = getDefaultComponentContext(workbook);
             componentContext.combine().write(fos);
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,8 +66,8 @@ public class GenericWriter extends AbstractWriter {
      * @param workbook
      * @return
      */
-    private WriteComponentContext getDefaultComponentContext(Workbook workbook) {
-        WriteComponentContext componentContext = new WriteComponentContext(workbook, headerDataList, contentDataList);
+    private ExcelContext getDefaultComponentContext(Workbook workbook) {
+        ExcelContext componentContext = new ExcelContext(workbook, headerDataList, contentDataList);
         return componentContext;
     }
 }

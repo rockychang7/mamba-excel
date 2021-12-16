@@ -36,18 +36,10 @@ public class CsvUtils {
 
         if (Objects.nonNull(contentDataList)) {
             for (List<Object> list : contentDataList) {
-                    csvPrinter.printRecord(list);
+                csvPrinter.printRecord(list);
             }
         }
     }
-
-
-    public static void read(){
-
-
-
-    }
-
 
     /**
      * 关闭CSVPrinter 流
@@ -73,6 +65,21 @@ public class CsvUtils {
         if (Objects.nonNull(csvPrinter)) {
             try {
                 csvPrinter.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 关闭CSVParser 流
+     *
+     * @param csvParser
+     */
+    public static void close(CSVParser csvParser) {
+        if (Objects.nonNull(csvParser)) {
+            try {
+                csvParser.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

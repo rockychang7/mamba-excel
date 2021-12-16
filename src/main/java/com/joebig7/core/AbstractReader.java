@@ -1,19 +1,9 @@
 package com.joebig7.core;
 
 import com.joebig7.core.component.ExcelProperty;
-import com.joebig7.core.data.HeaderData;
-import com.joebig7.core.factory.ExcelFactory;
 import com.joebig7.core.listener.ReadListener;
 import com.joebig7.enums.FileTypeEnum;
-import com.joebig7.exception.ExcelHeaderException;
-import com.joebig7.exception.ExcelReadException;
-import com.joebig7.utils.CommonFileUtils;
-import com.mamba.core.collection.CollectionsUtils;
 import com.mamba.core.file.FileUtils;
-import org.apache.poi.ss.usermodel.Workbook;
-
-import java.io.FileInputStream;
-import java.util.List;
 
 /**
  * @Author JoeBig7
@@ -29,29 +19,33 @@ public abstract class AbstractReader<T> extends ExcelProperty {
         this.type = type;
     }
 
-    public void read(List<HeaderData> headerDataList, ReadListener<T> readListener) {
-        initExcelReadContext(headerDataList, readListener);
+    public void read(ReadListener<T> readListener) {
+        initListener(readListener);
         String suffix = FileUtils.suffix(path);
         if (FileTypeEnum.CSV.getFileType().equalsIgnoreCase(suffix)) {
-            doCsvWrite();
+            doCsvRead();
         } else {
             doExcelRead();
         }
     }
 
+    /**
+     * 读取excel方法，可以覆盖进行定制化操作
+     */
     abstract protected void doExcelRead();
 
-    abstract protected void doCsvWrite();
+    /**
+     * 读取csv方法，可以覆盖进行定制化操作
+     */
+    abstract protected void doCsvRead();
 
 
     /**
      * 初始化读取excels上下文
      *
-     * @param headerDataList
      * @param readListener
      */
-    private void initExcelReadContext(List<HeaderData> headerDataList, ReadListener<T> readListener) {
-        this.headerDataList = headerDataList;
+    private void initListener(ReadListener<T> readListener) {
         this.readListener = readListener;
     }
 

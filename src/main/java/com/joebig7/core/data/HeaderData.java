@@ -5,6 +5,7 @@ import com.joebig7.enums.FieldTypeEnum;
 /**
  * @Author JoeBig7
  * @date 2021/7/19 15:22:17
+ * @description Header数据
  */
 public class HeaderData {
     public HeaderData(String fieldName, FieldTypeEnum fieldTypeEnum) {

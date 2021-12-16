@@ -8,6 +8,7 @@ import com.joebig7.enums.FieldTypeEnum;
 import com.joebig7.exception.ExcelManipulationException;
 import com.joebig7.exception.ExcelReadException;
 import com.joebig7.utils.CommonFileUtils;
+import com.joebig7.utils.CsvUtils;
 import com.joebig7.utils.ExcelUtils;
 import com.mamba.core.clazz.ClassUtils;
 import com.mamba.core.collection.CollectionsUtils;
@@ -20,8 +21,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @Author JoeBig7
@@ -51,7 +54,7 @@ public class GenericReader<T> extends AbstractReader<T> {
             throw new ExcelReadException(String.format("excel workbook %s is not found", sheetName));
         }
 
-        Sheet sheet = workbook.createSheet(sheetName);
+        Sheet sheet = workbook.getSheet(sheetName);
         if (Objects.isNull(sheet)) {
             throw new ExcelReadException(String.format("excel sheetName %s is not found", sheetName));
         }
@@ -71,15 +74,21 @@ public class GenericReader<T> extends AbstractReader<T> {
      * 读取csv文件内容
      */
     @Override
-    protected void doCsvWrite() {
+    protected void doCsvRead() {
+        CSVParser parser = null;
+        Reader reader = CommonFileUtils.getFileReader(path);
         try {
-            CSVParser parser = CsvFactory.readInstance(path);
+            String[] headers = CollectionsUtils.toStringArray(headerDataList.stream().map(HeaderData::getFieldName).collect(Collectors.toList()));
+            parser = CsvFactory.readInstance(reader, headers);
             doSpecificCsvRead(parser.getRecords());
             readListener.doAfterRead();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            CsvUtils.close(parser);
+            CommonFileUtils.closeReader(reader);
         }
     }
 
