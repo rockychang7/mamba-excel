@@ -64,7 +64,7 @@ public void testExcelWriter() {
 ```
 @Test
 public void testCsvReader() {
-    //指定excel标题头，并且指定每个字段的类型
+    //指定csv标题头，并且指定每个字段的类型
     List<HeaderData> headerDataList = HeaderDataBuilder.instance()
             .fill("name", STRING)
             .fill("age", INTEGER)
