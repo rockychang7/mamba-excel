@@ -93,8 +93,8 @@ public class GenericCellComponent implements ExcelComponent<Void, List<Row>> {
     public void createContentCell(int index, List<Row> rows, List<List<Object>> contentDataList) {
         List<Object> rowDataList = contentDataList.get(index - 1);
         for (int j = 0; j < rowDataList.size(); j++) {
-            Cell cell = rows.get(index).createCell(j, headerDataList.get(j).getFieldTypeEnum().getCellType());
             FieldTypeEnum type = headerDataList.get(j).getFieldTypeEnum();
+            Cell cell = rows.get(index).createCell(j, type.getCellType());
             String strValue = rowDataList.get(j) + "";
             switch (type) {
                 case INTEGER:

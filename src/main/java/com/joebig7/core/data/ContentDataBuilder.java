@@ -111,12 +111,12 @@ public class ContentDataBuilder<T> extends ExcelProperty {
             throw new IllegalArgumentException("content is null");
         }
 
-        List<Object> content = new ArrayList<>();
         if (CollectionUtils.isEmpty(headerDataList)) {
             throw new IllegalArgumentException("headerDataList is null");
         }
 
         for (T t : list) {
+            List<Object> content = new ArrayList<>();
             for (HeaderData headerData : headerDataList) {
                 String fieldName = headerData.getFieldName();
                 Object val = ClassUtils.getField(t, fieldName);

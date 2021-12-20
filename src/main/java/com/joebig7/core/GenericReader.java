@@ -14,10 +14,7 @@ import com.mamba.core.clazz.ClassUtils;
 import com.mamba.core.collection.CollectionsUtils;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -103,8 +100,15 @@ public class GenericReader<T> extends AbstractReader<T> {
         for (int i = 1; i < rowNum; i++) {
             Object cellObj = obtainTargetObj();
             Row row = sheet.getRow(i);
+            if(Objects.isNull(row)){
+                continue;
+            }
+
             for (int j = 0; j < headerDataList.size(); j++) {
                 Cell cell = row.getCell(j);
+                if(Objects.isNull(cell)){
+                    continue;
+                }
                 //监听事件，全局上下文存储data
                 HeaderData headerData = headerDataList.get(j);
                 String fieldName = headerData.getFieldName();
@@ -174,6 +178,7 @@ public class GenericReader<T> extends AbstractReader<T> {
                 return cell.getBooleanCellValue();
             case STRING:
             case FORMULA:
+                cell.setCellType(CellType.STRING);
                 return cell.getStringCellValue();
             case BLANK:
                 return "";
