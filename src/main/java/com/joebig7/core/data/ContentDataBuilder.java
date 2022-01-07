@@ -48,15 +48,25 @@ public class ContentDataBuilder<T> extends ExcelProperty {
         return new ContentDataBuilder(headerDataList);
     }
 
+    /**
+     * 填充内容 content默认作为多行
+     * @param content
+     * @param isTransform
+     * @return
+     */
+    public ContentDataBuilder fill(List<Object> content, boolean isTransform) {
+        return fill(content,isTransform,true);
+    }
 
     /**
      * 填充内容
      *
      * @param content
      * @param isTransform 是否解析参数
+     * @param content 是否作为多行解析
      * @return
      */
-    public ContentDataBuilder fill(List<Object> content, boolean isTransform) {
+    public ContentDataBuilder fill(List<Object> content, boolean isTransform,boolean isMultiLine) {
         if (CollectionUtils.isEmpty(content)) {
             throw new IllegalArgumentException("content is null");
         }
@@ -68,7 +78,16 @@ public class ContentDataBuilder<T> extends ExcelProperty {
             if (CollectionUtils.isEmpty(contentDataList)) {
                 contentDataList = new ArrayList<>();
             }
-            contentDataList.add(content);
+
+            if(isMultiLine){
+                content.parallelStream().forEach(c->{
+                    List<Object> row = new ArrayList<>();
+                    row.add(c);
+                    contentDataList.add(row);
+                });
+            }else {
+                contentDataList.add(content);
+            }
         }
         return this;
     }
