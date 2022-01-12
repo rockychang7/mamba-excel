@@ -1,15 +1,14 @@
 import com.alibaba.fastjson.JSON;
 import com.joebig7.MambaExcelFactory;
-import com.joebig7.core.GenericWriter;
 import com.joebig7.core.data.ContentDataBuilder;
 import com.joebig7.core.data.HeaderData;
 import com.joebig7.core.data.HeaderDataBuilder;
 import com.joebig7.core.listener.DataReadListener;
-import org.apache.commons.compress.utils.Lists;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import static com.joebig7.enums.FieldTypeEnum.*;
 

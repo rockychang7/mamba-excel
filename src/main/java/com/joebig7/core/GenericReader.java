@@ -19,6 +19,7 @@ import org.apache.poi.ss.usermodel.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -182,6 +183,8 @@ public class GenericReader<T> extends AbstractReader<T> {
                 return cell.getStringCellValue();
             case BLANK:
                 return "";
+            case BIG_DECIMAL:
+                return new BigDecimal(cell.getNumericCellValue());
             default:
                 throw new ExcelManipulationException("no suitable type for cell value");
         }

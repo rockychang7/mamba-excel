@@ -15,7 +15,8 @@ public enum FieldTypeEnum {
     BOOLEAN(4, CellType.BOOLEAN),
     STRING(5, CellType.STRING),
     FORMULA(6, CellType.FORMULA),
-    BLANK(7, CellType.BLANK);
+    BLANK(7, CellType.BLANK),
+    BIG_DECIMAL(8,CellType.NUMERIC);
 
     int type;
     CellType cellType;
