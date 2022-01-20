@@ -80,7 +80,7 @@ public class ContentDataBuilder<T> extends ExcelProperty {
             }
 
             if(isMultiLine){
-                content.parallelStream().forEach(c->{
+                content.stream().forEach(c->{
                     List<Object> row = new ArrayList<>();
                     row.add(c);
                     contentDataList.add(row);

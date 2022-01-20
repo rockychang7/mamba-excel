@@ -1,18 +1,14 @@
 import com.alibaba.fastjson.JSON;
 import com.joebig7.MambaExcelFactory;
-import com.joebig7.core.GenericWriter;
 import com.joebig7.core.data.ContentDataBuilder;
 import com.joebig7.core.data.HeaderData;
 import com.joebig7.core.data.HeaderDataBuilder;
 import com.joebig7.core.listener.DataReadListener;
-import com.joebig7.enums.FieldTypeEnum;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.joebig7.enums.FieldTypeEnum.*;
-import static com.joebig7.enums.FieldTypeEnum.BOOLEAN;
 
 /**
  * @Author JoeBig7
