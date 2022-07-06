@@ -69,6 +69,20 @@ public class MambaExcelFactory extends ExcelProperty {
         reader.read(listener);
     }
 
+    /**
+     * 获取写对象  不需要header
+     *
+     * @param path
+     * @param contentDataList
+     * @return
+     */
+    public MambaExcelFactory writeInstance(String path, List<List<Object>> contentDataList) {
+        GenericWriter genericWriter = new GenericWriter(path);
+        genericWriter.setContentDataList(contentDataList);
+        this.writer = genericWriter;
+        return this;
+    }
+
 
     /**
      * 获取写对象

@@ -39,7 +39,7 @@ public class ContentDataBuilder<T> extends ExcelProperty {
     }
 
     /**
-     * 实例化构建起  指定headerDataList
+     * 实例化构建器  并且指定生成文件的header
      *
      * @param headerDataList
      * @return
@@ -48,44 +48,78 @@ public class ContentDataBuilder<T> extends ExcelProperty {
         return new ContentDataBuilder(headerDataList);
     }
 
+
     /**
-     * 填充内容 content默认作为多行
-     * @param content
-     * @param isTransform
+     * 填充内容,默认List看作多行，对象默认不转换
+     *
+     * @param content 内容集合
      * @return
      */
-    public ContentDataBuilder fill(List<Object> content, boolean isTransform) {
-        return fill(content,isTransform,true);
+    public ContentDataBuilder fill(List<Object> content) {
+        return fill(content, false, true);
+    }
+
+    /**
+     * 填充内容,对象转换
+     *
+     * @param content 内容集合
+     * @return
+     */
+    public ContentDataBuilder fillWithTransform(List<Object> content) {
+        return fill(content, true);
+    }
+
+    /**
+     * 填充内容,当做单行处理
+     *
+     * @param content 内容集合
+     * @return
+     */
+    public ContentDataBuilder fillWithOneLine(List<Object> content) {
+        return fill(content, false, false);
+    }
+
+
+    /**
+     * 填充内容
+     *
+     * @param content     内容集合
+     * @param isTransform 是否要将每一行的内容转化为具体对象
+     * @return
+     */
+    private ContentDataBuilder fill(List<Object> content, boolean isTransform) {
+        return fill(content, isTransform, true);
     }
 
     /**
      * 填充内容
      *
-     * @param content
-     * @param isTransform 是否解析参数
-     * @param content 是否作为多行解析
+     * @param content     内容集合
+     * @param isTransform 是否要将每一行的内容转化为具体对象
+     * @param content     是否将List中每个对象作为一行
      * @return
      */
-    public ContentDataBuilder fill(List<Object> content, boolean isTransform,boolean isMultiLine) {
+    private ContentDataBuilder fill(List<Object> content, boolean isTransform, boolean isMultiLine) {
         if (CollectionUtils.isEmpty(content)) {
             throw new IllegalArgumentException("content is null");
         }
 
         if (isTransform) {
             List<T> transformedContent = content.stream().map(c -> (T) c).collect(Collectors.toList());
-            fill(transformedContent);
+            fillObjects(transformedContent);
         } else {
             if (CollectionUtils.isEmpty(contentDataList)) {
                 contentDataList = new ArrayList<>();
             }
 
-            if(isMultiLine){
-                content.stream().forEach(c->{
+            //如果isMultiLine为true表示传入的内容每一个元素作为一行，否则整个List做为一行
+            if (isMultiLine) {
+                content.stream().forEach(c -> {
                     List<Object> row = new ArrayList<>();
                     row.add(c);
                     contentDataList.add(row);
                 });
-            }else {
+            } else {
                 contentDataList.add(content);
             }
         }
@@ -93,12 +127,12 @@ public class ContentDataBuilder<T> extends ExcelProperty {
     }
 
     /**
-     * 填充内容 指定对象
+     * 填充单个具体的对象
      *
      * @param t
      * @return
      */
-    public ContentDataBuilder fill(T t) {
+    public ContentDataBuilder fillObject(T t) {
 
         if (Objects.isNull(t)) {
             throw new IllegalArgumentException("content is null");
@@ -120,12 +154,12 @@ public class ContentDataBuilder<T> extends ExcelProperty {
 
 
     /**
-     * 填充内容 指定对象集合
+     * 填充具体对象的List集合
      *
      * @param list
      * @return
      */
-    public ContentDataBuilder fill(List<T> list) {
+    public ContentDataBuilder fillObjects(List<T> list) {
         if (CollectionUtils.isEmpty(list)) {
             throw new IllegalArgumentException("content is null");
         }
