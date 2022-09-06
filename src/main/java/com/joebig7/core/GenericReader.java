@@ -209,6 +209,8 @@ public class GenericReader<T> extends AbstractReader<T> {
                 return "";
             case BIG_DECIMAL:
                 return new BigDecimal(cell.getNumericCellValue());
+            case DATE:
+                return cell.getDateCellValue();
             default:
                 throw new ExcelManipulationException("no suitable type for cell value");
         }

@@ -16,7 +16,8 @@ public enum FieldTypeEnum {
     STRING(5, CellType.STRING),
     FORMULA(6, CellType.FORMULA),
     BLANK(7, CellType.BLANK),
-    BIG_DECIMAL(8,CellType.NUMERIC);
+    BIG_DECIMAL(8,CellType.NUMERIC),
+    DATE(9,CellType.STRING);
 
     int type;
     CellType cellType;
