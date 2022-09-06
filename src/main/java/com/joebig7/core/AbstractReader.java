@@ -5,6 +5,8 @@ import com.joebig7.core.listener.ReadListener;
 import com.joebig7.enums.FileTypeEnum;
 import com.mamba.core.file.FileUtils;
 
+import java.io.InputStream;
+
 /**
  * @Author JoeBig7
  * @date 2021/11/18 19:06:53
@@ -18,6 +20,14 @@ public abstract class AbstractReader<T> extends ExcelProperty {
         this.sheetName = sheetName;
         this.type = type;
     }
+
+
+    public AbstractReader(InputStream inputStream, Class type, String sheetName) {
+        this.inputStream = inputStream;
+        this.sheetName = sheetName;
+        this.type = type;
+    }
+
 
     public void read(ReadListener<T> readListener) {
         initListener(readListener);

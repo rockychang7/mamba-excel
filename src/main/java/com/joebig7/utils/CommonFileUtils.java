@@ -39,19 +39,19 @@ public class CommonFileUtils {
      * @param path
      * @return
      */
-    public static FileInputStream getFileInputStream(String path) {
+    public static InputStream getFileInputStream(String path) {
         if (checkPath(path)) {
             throw new IllegalArgumentException(String.format("file path %s is not legal", path));
         }
-        FileInputStream fileInputStream = null;
+        InputStream inputStream = null;
 
         try {
-            fileInputStream = new FileInputStream(path);
-            return fileInputStream;
+            inputStream = new FileInputStream(path);
+            return inputStream;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return fileInputStream;
+        return inputStream;
     }
 
 

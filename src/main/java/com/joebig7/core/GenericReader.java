@@ -16,8 +16,9 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.poi.ss.usermodel.*;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.util.List;
@@ -37,6 +38,15 @@ public class GenericReader<T> extends AbstractReader<T> {
         super(path, type, sheetName);
     }
 
+    public GenericReader(InputStream inputStream, Class type) {
+        this(inputStream, type, ExcelConstant.DEFAULT_SHEET_NAME);
+    }
+
+    public GenericReader(InputStream inputStream, Class type, String sheetName) {
+        super(inputStream, type, sheetName);
+    }
+
+
     /**
      * 读取excel内容
      */
@@ -45,8 +55,15 @@ public class GenericReader<T> extends AbstractReader<T> {
         if (CollectionsUtils.isEmpty(headerDataList)) {
             throw new ExcelReadException("excel header can not be null");
         }
-        FileInputStream fileInputStream = CommonFileUtils.getFileInputStream(path);
-        Workbook workbook = ExcelFactory.readInstance(fileInputStream, path);
+
+        Workbook workbook = null;
+
+        if (Objects.nonNull(inputStream)) {
+            workbook = ExcelFactory.readInstanceBySuffix(inputStream, suffix);
+        } else {
+            inputStream = CommonFileUtils.getFileInputStream(path);
+            workbook = ExcelFactory.readInstance(inputStream, path);
+        }
 
         if (Objects.isNull(workbook)) {
             throw new ExcelReadException(String.format("excel workbook %s is not found", sheetName));
@@ -63,7 +80,7 @@ public class GenericReader<T> extends AbstractReader<T> {
             e.printStackTrace();
         } finally {
             ExcelUtils.closeWorkbook(workbook);
-            CommonFileUtils.closeInputStream(fileInputStream);
+            CommonFileUtils.closeInputStream(inputStream);
         }
     }
 
@@ -74,7 +91,14 @@ public class GenericReader<T> extends AbstractReader<T> {
     @Override
     protected void doCsvRead() {
         CSVParser parser = null;
-        Reader reader = CommonFileUtils.getFileReader(path);
+        Reader reader;
+
+        if (Objects.nonNull(inputStream)) {
+            reader = new InputStreamReader(inputStream);
+        } else {
+            reader = CommonFileUtils.getFileReader(path);
+        }
+
         try {
             String[] headers = CollectionsUtils.toStringArray(headerDataList.stream().map(HeaderData::getFieldName).collect(Collectors.toList()));
             parser = CsvFactory.readInstance(reader, headers);
@@ -101,13 +125,13 @@ public class GenericReader<T> extends AbstractReader<T> {
         for (int i = 1; i < rowNum; i++) {
             Object cellObj = obtainTargetObj();
             Row row = sheet.getRow(i);
-            if(Objects.isNull(row)){
+            if (Objects.isNull(row)) {
                 continue;
             }
 
             for (int j = 0; j < headerDataList.size(); j++) {
                 Cell cell = row.getCell(j);
-                if(Objects.isNull(cell)){
+                if (Objects.isNull(cell)) {
                     continue;
                 }
                 //监听事件，全局上下文存储data

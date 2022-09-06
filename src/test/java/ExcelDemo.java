@@ -6,6 +6,8 @@ import com.joebig7.core.data.HeaderDataBuilder;
 import com.joebig7.core.listener.DataReadListener;
 import org.junit.Test;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class ExcelDemo {
      * 读取excel内容
      */
     @Test
-    public void testExcelReader() {
+    public void testExcelReader() throws Exception {
         //指定excel标题头，并且指定每个字段的类型
         List<HeaderData> headerDataList = HeaderDataBuilder.instance()
                 .fill("name")
@@ -31,9 +33,19 @@ public class ExcelDemo {
                 .fill("married", BOOLEAN)
                 .build();
 
+//        MambaExcelFactory
+//                .build()  //创建MambaExcelFactory实例
+//                .readInstance("./user.xlsx", User.class, headerDataList)//初始化reader实例，指定文件，返回类型和header字段
+//                .read(new DataReadListener<>((users -> {
+//                    //可以对查询到的结果进行特定逻辑的处理
+//                    System.out.println(JSON.toJSONString(users));
+//                })));
+
+        InputStream inputStream = new FileInputStream("./user.xlsx");
+
         MambaExcelFactory
                 .build()  //创建MambaExcelFactory实例
-                .readInstance("./user.xlsx", User.class, headerDataList)//初始化reader实例，指定文件，返回类型和header字段
+                .readInstance(inputStream,"xlsx", User.class, headerDataList)//初始化reader实例，指定文件，返回类型和header字段
                 .read(new DataReadListener<>((users -> {
                     //可以对查询到的结果进行特定逻辑的处理
                     System.out.println(JSON.toJSONString(users));

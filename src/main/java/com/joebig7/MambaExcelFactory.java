@@ -6,6 +6,7 @@ import com.joebig7.core.component.ExcelProperty;
 import com.joebig7.core.data.HeaderData;
 import com.joebig7.core.listener.DataReadListener;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -59,6 +60,43 @@ public class MambaExcelFactory extends ExcelProperty {
         this.reader = genericReader;
         return this;
     }
+
+
+    /**
+     * 获取读取对象
+     *
+     * @param inputStream
+     * @param suffix
+     * @param type
+     * @param headerDataList
+     * @return
+     */
+    public MambaExcelFactory readInstance(InputStream inputStream, String suffix, Class type, List<HeaderData> headerDataList) {
+        GenericReader genericReader = new GenericReader(inputStream, type);
+        genericReader.setSuffix(suffix);
+        genericReader.setHeaderDataList(headerDataList);
+        this.reader = genericReader;
+        return this;
+    }
+
+    /**
+     * 获取读取对象 用户excel指定sheetName
+     *
+     * @param inputStream
+     * @param suffix
+     * @param type
+     * @param headerDataList
+     * @param sheetName
+     * @return
+     */
+    public MambaExcelFactory readInstance(InputStream inputStream, String suffix, Class type, List<HeaderData> headerDataList, String sheetName) {
+        GenericReader genericReader = new GenericReader(inputStream, type, sheetName);
+        genericReader.setSuffix(suffix);
+        genericReader.setHeaderDataList(headerDataList);
+        this.reader = genericReader;
+        return this;
+    }
+
 
     /**
      * 触发读取动作

@@ -56,4 +56,26 @@ public class ExcelFactory {
         }
         return null;
     }
+
+
+    /**
+     * 根据InputStream生成workbook读取对象
+     *
+     * @param inputStream
+     * @return
+     */
+    public static Workbook readInstanceBySuffix(InputStream inputStream,String suffix) {
+        try {
+            if ( suffix.equals(XLSX.getFileType())) {
+                return new XSSFWorkbook(inputStream);
+            } else if (suffix.equals(XLS.getFileType())) {
+                return new HSSFWorkbook(inputStream);
+            } else {
+                throw new ExcelManipulationException("file type is not supported");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
